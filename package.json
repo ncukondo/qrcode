@@ -55,6 +55,7 @@
     "tailwindcss": "^1.0.1"
   },
   "dependencies": {
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "qrcode-svg": "^1.1.0"
   }
 }

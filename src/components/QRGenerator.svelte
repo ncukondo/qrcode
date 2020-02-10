@@ -1,5 +1,6 @@
 <script>
   import QRCode from "qrcode";
+  import QRSvg from "qrcode-svg";
   let text = "";
   let url = "";
   let option = { type: "svg" };
@@ -15,11 +16,11 @@
   };
 
   const getDataURLFromSVG = svg =>
-    "data:image/svg+xml," + encodeURIComponent(svg);
+    `data:image/svg+xml,${encodeURIComponent(svg)}`;
 
   const textToDataUrl = async (source, opt) =>
     opt && opt.type === "svg"
-      ? getDataURLFromSVG(await QRCode.toString(source, opt))
+      ? getDataURLFromSVG(new QRSvg(source).svg())
       : await QRCode.toDataURL(source, opt);
 
   $: debounce(async () => {
@@ -29,28 +30,31 @@
 
 <style lang="css">
   .qrframe {
+    margin-top: 1rem;
     width: 12em;
     height: 12em;
   }
 
-  input {
-    border: solid 1px;
-  }
   .contents {
     margin: 1em;
   }
 </style>
 
-<div class="contents">
+<div
+  class="contents container w-1/2 sm:w-auto md:w-full lg:w-64 xl:w-64 center">
   <h1>QRCode generater</h1>
   <div>
     <div>
-      <input bind:value={text} />
+      <input
+        bind:value={text}
+        class="shadow appearance-none border rounded w-full py-2 px-3
+        text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
     </div>
-    {#if url}
-      <div class="qrframe">
-        <img alt={text} src={url} />
-      </div>
-    {/if}
+    <div class="qrframe border rounded object-center">
+      {#if url}
+        <img id="qrcode" alt={text} src={url} />
+      {/if}
+    </div>
   </div>
+
 </div>
