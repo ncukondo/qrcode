@@ -1,10 +1,12 @@
 #!/bin/bash
 
+echo "Converting... icon.svg => favicon.ico"
 magick convert  -density 200 -background none icon.svg -define icon:auto-resize favicon.ico
-for i in 512 192 144 96 48 32 16
+
+for i in 512 192 180 144 96 48 32 16
 do
-echo "magick convert  -density 200 -background none icon.svg -resize x$i -write icon-$i.png"
-magick convert  -density 200 -background none icon.svg -resize x$i -write icon-$i.png
+echo "Converting... icon.svg => icon-$i.png"
+magick convert -density 200 -background none icon.svg  -resize x$i icon-$i.png
 done
 
 exit 0
