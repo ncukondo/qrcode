@@ -32,7 +32,7 @@
   <section>
     <button
       class="{$isReading$ ? 'bg-red-500 hover:bg-red-700' : 'bg-blue-500 hover:bg-blue-700'}
-      text-white font-bold py-2 px-4 rounded-full"
+      text-white font-bold py-2 px-4 rounded-full m-auto block"
       on:click={() => toggleCamera()}>
       {#if $isReading$}Stop Camera{:else}Start Camera{/if}
     </button>
@@ -44,9 +44,14 @@
       {#if $isUrl$}
         <a href={$qrdata$} target="_blank">{$qrdata$}</a>
       {:else}{$qrdata$}{/if}
-      [
-      <a href="_" on:click|preventDefault={() => copyToClip($qrdata$)}>clip</a>
-      ]
+
+      <a
+        href="_"
+        on:click|preventDefault={() => copyToClip($qrdata$)}
+        class="bg-blue-300 hover:bg-blue-400 text-white rounded-full px-3 py-1">
+        clip
+      </a>
+
     </section>
   {/if}
   <div class="border rounded w-full h-auto sm:w-64 sm:h-64 my-4">

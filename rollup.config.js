@@ -1,5 +1,5 @@
 import commonjs from "rollup-plugin-commonjs";
-// import purgeCss from '@fullhuman/postcss-purgecss';
+import purgeCss from '@fullhuman/postcss-purgecss';
 import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
 import resolve from "rollup-plugin-node-resolve";

@@ -10,8 +10,10 @@
     Object.prototype.toString.call(obj) === "[object Object]";
 
   let dictOptions = [];
+  let _value;
 
   function onChange(event) {
+    value = event.srcElement.value;
     dispatch("change", {
       ...event,
       srcElement: event.srcElement,
@@ -20,21 +22,8 @@
   }
 
   const [send, receive] = crossfade({
-    duration: d => Math.sqrt(d * 200),
-
-    fallback(node, params) {
-      const style = getComputedStyle(node);
-      const transform = style.transform === "none" ? "" : style.transform;
-
-      return {
-        duration: 600,
-        easing: quintOut,
-        css: t => `
-					transform: ${transform} scale(${t});
-					opacity: ${t}
-				`
-      };
-    }
+    duration: 300,
+    fallback: "scale"
   });
 
   $: {
@@ -48,7 +37,7 @@
         label: value
       }));
     }
-    value = value.toString();
+    _value = value.toString();
   }
 </script>
 
@@ -98,12 +87,12 @@
     <label>
       <input
         type="radio"
-        bind:group={value}
+        bind:group={_value}
         value={item.value}
         on:change={event => onChange(event)} />
       <div class="label">
         {item.label}
-        {#if value == item.value}
+        {#if _value == item.value}
           <div
             class="active_tab"
             in:receive={{ key: 'tabmarker' }}

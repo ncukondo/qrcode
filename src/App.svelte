@@ -6,18 +6,30 @@
   import Tabpager from "./components/Tabpager.svelte";
 
   const tabs = {
-    "/": "make",
-    "/camera": "camera",
-    "/capture": "capture"
+    "/": "make"
   };
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
+    tabs["/camera"] = "camera";
+  if (
+    navigator.mediaDevices &&
+    navigator.mediaDevices.getDisplayMedia &&
+    !isMobile()
+  )
+    tabs["/capture"] = "capture";
   let currentTab = "/";
-  $: push(currentTab);
+
+  function onChange(event) {
+    push(event.detail.value);
+  }
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js");
   }
 
-  params$.subscribe(params => console.log(params));
+  function isMobile() {
+    const mobiles = ["iPhone", "iPad", "Android"];
+    return mobiles.some(mobile => navigator.userAgent.includes(mobile));
+  }
 </script>
 
 <div class="flex justify-center">
@@ -25,7 +37,10 @@
 
     <main class="overflow-hidden p-1">
       <h1>QRCode</h1>
-      <Tabpager bind:value={currentTab} options={tabs} />
+      <Tabpager
+        value={currentTab}
+        options={tabs}
+        on:change={event => onChange(event)} />
       <Router {routes} />
     </main>
   </div>

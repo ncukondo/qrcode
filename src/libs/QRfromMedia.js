@@ -44,7 +44,8 @@ function reset() {
 }
 
 
-async function startAnalyzing(video) {
+async function startAnalyzing() {
+  if (!get(reading)) return;
   const [height, width] = [video.videoHeight, video.videoWidth];
   const canv = document.createElement("canvas");
   canv.height = height;
@@ -52,11 +53,11 @@ async function startAnalyzing(video) {
 
   const context = canv.getContext("2d");
   let jsQRModule;
-  console.log("loaded library...");
 
   const interval = setInterval(async () => {
-    if (!video || video.paused || video.ended) {
+    if (!get(reading) || !video || video.paused || video.ended) {
       clearInterval(interval);
+      stop();
       return;
     }
     console.log("search .....");
@@ -75,14 +76,7 @@ async function startAnalyzing(video) {
 async function startReading(mediaFunc) {
   if (get(reading)) stop();
   reading.set(true);
-  mediaStream = await mediaFunc({
-    audio: false,
-    video: {
-      width,
-      height,
-      frameRate: { ideal: 5, max: 15 }
-    }
-  });
+  mediaStream = await mediaFunc();
   if (getVideoElement()) {
     video = getVideoElement();
   } else {
@@ -92,23 +86,46 @@ async function startReading(mediaFunc) {
   }
   video.srcObject = mediaStream;
   video.onloadedmetadata = () => {
-    video.play();
-    startAnalyzing(video);
+    if (get(reading)) {
+      console.log("video activated");
+      video.play();
+      startAnalyzing();
+    } else {
+      stop();
+    }
   };
 }
 
 function startCamera() {
   console.log("startCamera");
-  startReading(navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices));
+  startReading(navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices, {
+    audio: false,
+    video: {
+      width,
+      height,
+      frameRate: { ideal: 5, max: 15 },
+      facingMode: { exact: "environment" }
+    }
+  }));
 }
 
 function startCapture() {
   console.log("startCapture");
-  startReading(navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices));
+  startReading(navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices,
+    {
+      audio: false,
+      video: {
+        width,
+        height,
+        frameRate: { ideal: 5, max: 15 },
+      }
+    }));
 }
 
 function stop() {
-  if (video) video.pause();
+  if (video) {
+    video.pause();
+  }
   if (mediaStream)
     mediaStream.getVideoTracks().forEach(track => track.stop());
   mediaStream = null;
