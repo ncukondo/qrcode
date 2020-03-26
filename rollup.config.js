@@ -14,10 +14,10 @@ const production = !process.env.ROLLUP_WATCH;
 export default {
   input: "src/main.js",
   output: {
-    format: "iife",
+    format: "esm",
     sourcemap: true,
     name: "app",
-    file: "dist/main.js"
+    dir: "public/bundle/"
   },
 
   plugins: [
@@ -27,7 +27,7 @@ export default {
         style: svelte_preprocess_postcss()
       },
       css: css => {
-        css.write("dist/components.css");
+        css.write("public/components.css");
       }
     }),
     resolve(),
@@ -40,7 +40,7 @@ export default {
     postcss({
       extract: true
     }),
-    !production && livereload("dist"),
+    !production && livereload("public"),
     production && terser()
   ]
   // watch: {

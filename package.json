@@ -6,8 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "build:auto": "rollup -c -w",
-    "serve": "sirv dist",
-    "serve:dev": "sirv dist --dev",
+    "serve": "sirv public",
+    "serve:dev": "sirv public --dev",
     "dev": "run-p build:auto serve:dev",
     "now-build": "rollup -c",
     "test": "cypress open"
@@ -55,7 +55,12 @@
     "tailwindcss": "^1.0.1"
   },
   "dependencies": {
+    "@simonwep/pickr": "^1.5.1",
+    "canvas": "^2.6.1",
+    "jsqr": "^1.2.0",
+    "memory-streams": "^0.1.3",
     "qrcode": "^1.4.4",
-    "qrcode-svg": "^1.1.0"
+    "qrcode-svg": "^1.1.0",
+    "svelte-spa-router": "^2.0.1"
   }
 }
