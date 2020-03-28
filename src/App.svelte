@@ -1,9 +1,14 @@
 <script>
-  import Router from "svelte-spa-router";
+  import Router, { location } from "svelte-spa-router";
   import { push } from "svelte-spa-router";
   import active from "svelte-spa-router/active";
   import routes, { params$ } from "./routes.js";
   import Tabpager from "./components/Tabpager.svelte";
+
+  const isMobile = () =>
+    ["iPhone", "iPad", "Android"].some(mobile =>
+      navigator.userAgent.includes(mobile)
+    );
 
   const tabs = {
     "/": "make"
@@ -16,7 +21,6 @@
     !isMobile()
   )
     tabs["/capture"] = "capture";
-  let currentTab = "/";
 
   function onChange(event) {
     push(event.detail.value);
@@ -24,11 +28,6 @@
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js");
-  }
-
-  function isMobile() {
-    const mobiles = ["iPhone", "iPad", "Android"];
-    return mobiles.some(mobile => navigator.userAgent.includes(mobile));
   }
 </script>
 
@@ -38,7 +37,7 @@
     <main class="overflow-hidden p-1">
       <h1>QRCode</h1>
       <Tabpager
-        value={currentTab}
+        value={$location}
         options={tabs}
         on:change={event => onChange(event)} />
       <Router {routes} />

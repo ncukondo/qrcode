@@ -38,6 +38,7 @@
       }));
     }
     _value = value.toString();
+    console.log("value:" + value);
   }
 </script>
 
