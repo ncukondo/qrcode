@@ -4126,7 +4126,7 @@ postcss@6.0.1:
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.1, postcss@^6.0.9:
+postcss@^6.0.1, postcss@^6.0.14, postcss@^6.0.9:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   integrity sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==
@@ -4583,6 +4583,15 @@ rollup-plugin-node-resolve@^5.0.0:
     is-module "^1.0.0"
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
+
+rollup-plugin-postcss-config@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-postcss-config/-/rollup-plugin-postcss-config-2.0.0.tgz#d5543d1338cd7fc917435af3299e85b3d835f858"
+  integrity sha512-wx0C+hS+IPfPXGPtBgfYZw6O9RgMnKzm3JsZolOfOQIS4WLfvzPWv3wRAJpQS4pauy8BStMglBjnc9Yq25R2+w==
+  dependencies:
+    postcss "^6.0.14"
+    postcss-load-config "^1.2.0"
+    rollup-pluginutils "^2.0.1"
 
 rollup-plugin-postcss@^2.0.3:
   version "2.0.6"

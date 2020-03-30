@@ -1,5 +1,4 @@
 import commonjs from "rollup-plugin-commonjs";
-import purgeCss from '@fullhuman/postcss-purgecss';
 import livereload from "rollup-plugin-livereload";
 import postcss from "rollup-plugin-postcss";
 import resolve from "rollup-plugin-node-resolve";
@@ -30,7 +29,10 @@ export default {
         css.write("public/components.css");
       }
     }),
-    resolve(),
+    resolve({
+      preferBuiltins: true, browser: true,
+      dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/'),
+    }),
     commonjs(),
     globals(),
     builtins(),
@@ -38,12 +40,11 @@ export default {
       assets: ["src/assets"]
     }),
     postcss({
-      extract: true
+      extract: true, plugins: [require('tailwindcss'),
+      require('autoprefixer'),]
     }),
     !production && livereload("public"),
     production && terser()
   ]
-  // watch: {
-  //    clearScreen: false,
-  // },
+
 };
