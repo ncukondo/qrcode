@@ -31,7 +31,7 @@
     "@fullhuman/postcss-purgecss": "^1.2.0",
     "chokidar": "^3.0.0",
     "cssnano": "^4.1.10",
-    "cypress": "^3.4.1",
+    "cypress": "^12.7.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.2.13",
     "postcss-color-mod-function": "^3.0.3",
